@@ -26,18 +26,39 @@ public class UsuarioDAO {
 
     private static final Logger LOG = Logger.getLogger(UsuarioDAO.class.getName());
 
+    private Session session;
+    private Transaction trns;
+
+    public UsuarioDAO(Session session, Transaction trns) {
+        this.session = session;
+        this.trns = trns;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
+    public Transaction getTrns() {
+        return trns;
+    }
+
+    public void setTrns(Transaction trns) {
+        this.trns = trns;
+    }
+
     /**
-     * CREA UN USUARIO NUEVO
+     * CREA UN USUARIO NUEVO (NO HACE COMMIT)
      *
      * @param user Usuario a crear
      */
     public void crearUsuario(Usuario user) {
         SessionFactory sessionFactory = Conexion.getSessionFactory(Usuario.class);
-        Transaction trns = null;
-        try (Session session = sessionFactory.openSession()) {
-            trns = session.beginTransaction();
+        try {
             session.save(user);
-            session.getTransaction().commit();
         } catch (RuntimeException e) {
             if (trns != null) {
                 trns.rollback();
@@ -48,18 +69,15 @@ public class UsuarioDAO {
     }
 
     /**
-     * ELIMINA UN USUARIO A PARTIR DE SU NOMBRE DE USUARIO
+     * ELIMINA UN USUARIO A PARTIR DE SU NOMBRE DE USUARIO (NO HACE COMMIT)
      *
      * @param username Nombre de usuario
      */
     public void eliminarUsuario(String username) {
         SessionFactory sessionFactory = Conexion.getSessionFactory(Usuario.class);
-        Transaction trns = null;
-        try (Session session = sessionFactory.openSession()) {
-            trns = session.beginTransaction();
+        try {
             Usuario user = (Usuario) session.load(Usuario.class, new Integer(username));
             session.delete(user);
-            session.getTransaction().commit();
         } catch (RuntimeException e) {
             if (trns != null) {
                 trns.rollback();
@@ -70,17 +88,15 @@ public class UsuarioDAO {
     }
 
     /**
-     * ACTUALIZA A UN USUARIO
+     * ACTUALIZA A UN USUARIO (NO HACE COMMIT)
      *
      * @param user Usuario a actualizar
      */
     public void actualizarUsuario(Usuario user) {
         SessionFactory sessionFactory = Conexion.getSessionFactory(Usuario.class);
-        Transaction trns = null;
-        try (Session session = sessionFactory.openSession()) {
+        try {
             trns = session.beginTransaction();
             session.update(user);
-            session.getTransaction().commit();
         } catch (RuntimeException e) {
             if (trns != null) {
                 trns.rollback();
@@ -97,11 +113,8 @@ public class UsuarioDAO {
      */
     public List<Usuario> getUsuarios() {
         List<Usuario> users = new ArrayList<>();
-        SessionFactory sessionFactory = Conexion.getSessionFactory(Usuario.class);
-        Transaction trns = null;
-        try (Session session = sessionFactory.openSession()) {
-            trns = session.beginTransaction();
-            users = session.createQuery("from Usuarios").list();
+        try  {
+            users = session.createQuery("from Usuario").list(); //Usa nombre de clase en vez de tabla
         } catch (RuntimeException e) {
             if (trns != null) {
                 trns.rollback();
@@ -120,11 +133,8 @@ public class UsuarioDAO {
      */
     public Usuario getUsuarioByUsername(String username) {
         Usuario user = null;
-        Transaction trns = null;
-        SessionFactory sessionFactory = Conexion.getSessionFactory(Usuario.class);
-        try (Session session = sessionFactory.openSession()) {
-            trns = session.beginTransaction();
-            String queryString = "from Usuario where username = :id";
+        try {
+            String queryString = "from Usuario where username = :id"; //Usa nombre de clase en vez de tabla
             Query query = session.createQuery(queryString);
             query.setParameter("id", username);
             user = (Usuario) query.uniqueResult();
