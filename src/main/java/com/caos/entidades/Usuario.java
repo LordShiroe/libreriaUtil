@@ -59,6 +59,11 @@ public class Usuario implements Serializable {
         this.email = email;
     }
 
+    @Override
+    public String toString() {
+        return "Usuario{" + "username=" + username + ", password=" + password + ", fechaCreacion=" + fechaCreacion + ", ultimoAcceso=" + ultimoAcceso + ", estadoSesion=" + estadoSesion + ", rol=" + rol + ", nombre=" + nombre + ", email=" + email + '}';
+    }
+
     public String getNombre() {
         return nombre;
     }
