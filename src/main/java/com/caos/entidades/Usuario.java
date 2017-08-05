@@ -39,7 +39,7 @@ public class Usuario implements Serializable {
     @Column(name = "estado_sesion")
     private String estadoSesion;
 
-    @Column(name = "rol_id")
+    @Column(name = "rol")
     private String rol;
 
     private String nombre;
@@ -121,7 +121,7 @@ public class Usuario implements Serializable {
     }
 
     public String getUsername() {
-        return username;
+        return username.toLowerCase();
     }
 
     public void setUsername(String username) {
