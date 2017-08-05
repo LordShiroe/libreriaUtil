@@ -6,14 +6,12 @@
 package com.caos.dao;
 
 import com.caos.entidades.Usuario;
-import com.caos.libreriautil.Conexion;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
@@ -56,7 +54,6 @@ public class UsuarioDAO {
      * @param user Usuario a crear
      */
     public void crearUsuario(Usuario user) {
-        SessionFactory sessionFactory = Conexion.getSessionFactory(Usuario.class);
         try {
             session.save(user);
         } catch (RuntimeException e) {
@@ -74,9 +71,8 @@ public class UsuarioDAO {
      * @param username Nombre de usuario
      */
     public void eliminarUsuario(String username) {
-        SessionFactory sessionFactory = Conexion.getSessionFactory(Usuario.class);
         try {
-            Usuario user = (Usuario) session.load(Usuario.class, new Integer(username));
+            Usuario user = (Usuario) session.load(Usuario.class, username);
             session.delete(user);
         } catch (RuntimeException e) {
             if (trns != null) {
@@ -93,9 +89,7 @@ public class UsuarioDAO {
      * @param user Usuario a actualizar
      */
     public void actualizarUsuario(Usuario user) {
-        SessionFactory sessionFactory = Conexion.getSessionFactory(Usuario.class);
         try {
-            trns = session.beginTransaction();
             session.update(user);
         } catch (RuntimeException e) {
             if (trns != null) {
