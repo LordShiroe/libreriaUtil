@@ -89,12 +89,12 @@ public class Conexion{
      * @param clases Listado de clases a registrar en la configuración.
      * @return
      */
-    public static <T> SessionFactory getSessionFactory(List<Class<T>> clases) {
+    public static <T> SessionFactory getSessionFactory(List<Class<?>> clases) {
         if (sessionFactory == null) {
             try {
                 //Genera la configuración y añade las clases anotadas
                 Configuration configuration = new Configuration();
-                for (Class<T> clase : clases) {
+                for (Class<?> clase : clases) {
                     configuration.configure().addAnnotatedClass(clase);
                 }
                 registry = new StandardServiceRegistryBuilder().applySettings(
