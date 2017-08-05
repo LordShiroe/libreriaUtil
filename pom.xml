@@ -28,12 +28,12 @@
         </plugins>
     </build>
     <repositories>
-    <repository>
-      <id>RedHat</id>
-      <name>RedHat-Repo</name>
-      <url>https://maven.repository.redhat.com/ga/</url>
-    </repository>
-  </repositories>
+        <repository>
+            <id>RedHat</id>
+            <name>RedHat-Repo</name>
+            <url>https://maven.repository.redhat.com/ga/</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -63,6 +63,35 @@
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>3.18.1-GA-redhat-1</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+            <version>2.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
+            <version>2.5.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/jaxen/jaxen -->
+        <dependency>
+            <groupId>jaxen</groupId>
+            <artifactId>jaxen</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>7.0</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
     <properties>
